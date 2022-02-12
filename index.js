@@ -7,7 +7,7 @@ const path = require('path');
 const mysql = require('mysql');
 const config = require('./config/default.js');
 const app = express();
-const port = 3000;
+const port = config.port;
 
 app.use(express.json());
 

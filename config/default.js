@@ -1,4 +1,5 @@
 module.exports = {
+    port: process.env.PORT || 3000,
     mysqlCxnConfig: {
         host: process.env.HOSTNAME,
         user: process.env.USERNAME,
