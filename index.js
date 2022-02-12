@@ -11,17 +11,7 @@ const port = config.port;
 
 app.use(express.json());
 
-const mysqlCxnConfig = config.mysqlCxnConfig;
-const mysqlCxn = mysql.createConnection({
-  host: mysqlCxnConfig.host,
-  user: mysqlCxnConfig.user,
-  port: mysqlCxnConfig.port,
-  password: mysqlCxnConfig.password,
-  database : mysqlCxnConfig.database,
-  ssl  : {
-    ca : mysqlCxnConfig.caCert
-  }
-});
+const mysqlCxn = mysql.createConnection(config.mysqlCxnConfig);
 
 const EXACT_QUERY = ''
 + ' SELECT * FROM Voter'
