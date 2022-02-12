@@ -1,18 +1,41 @@
 <html>
     <head>
         <title>Validation Helper</title>
+        <link rel="stylesheet" href="https://unpkg.com/normalize.css@8.0.1/normalize.css"/>
+        <link rel="stylesheet" href="/res/style.css" />
         <link href="https://unpkg.com/gridjs/dist/theme/mermaid.min.css" rel="stylesheet"/>
     </head>
-    <body>
-        <label for="searchValue">Search Term:
-            <input id="searchValue" name="searchValue">
-        </label>
-        <button type="submit" onclick="handleSubmit()">Submit</button>
-        
-        <h2>Actual Data</h2>
-        <div id="queryTable"></div>
-        <h2 id="resultsType"></h2> 
-        <div id="resultsTable"></div>
+    <body id="search">
+        <div class="wrapper">
+            <div class="searchForm">
+                <h1>Petition Validation Helper</h1>
+                <p>
+                    To use this tool, open the Data Entry spreadsheet and for a row of data, select across
+                    the columns in the order (First Name, Last Name, House Number, Direction, Street Name, Street Type).
+                    Copy (Ctrl + C) the data, and paste (Ctrl + V) the data into the Search Term below. Click Submit.
+                </p>
+
+                <p>
+                    A query against the voter rolls will be conducted. The data you entered will be in the "Actual Data"
+                    table. The data from the voter rolls will be underneath that. The quality of the results will be in
+                    a header above the table ("exact", "good", or "lastChance") with the quantity of records returned.
+                    A <span style="color:greenyellow">green</span> cell indicates an exact match for a field. A 
+                    <span style="color:yellow">yellow</span> cell indicates strong similarity in a given field.
+                </p>
+
+                <label for="searchValue">Search Term:</label>
+                <input id="searchValue" name="searchValue">
+                <button type="submit" onclick="handleSubmit()">Submit</button>
+                <div id="error"></div>
+            </div>
+            
+            <div id="results">
+                <h2>Actual Data</h2>
+                <div id="queryTable"></div>
+                <h2 id="resultsType"></h2> 
+                <div id="resultsTable"></div>
+            </div>
+        </div>
 
         <script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script>
         <script src="/res/frontend.js"></script>

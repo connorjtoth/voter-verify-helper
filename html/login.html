@@ -1,15 +1,23 @@
 <html>
     <head>
         <title>Login</title>
+        <link rel="stylesheet" href="https://unpkg.com/normalize.css@8.0.1/normalize.css"/>
+        <link rel="stylesheet" href="/res/style.css" />
     </head>
-    <body>
-        <form method="post" action="private" >
-            <label for="passphrase">Passphrase:
+    <body id="login">
+        <div class="wrapper">
+            <form class="loginForm" method="post" action="private" >
+                <h1>Petition Validation Helper: Login</h1>
+                <p>
+                    Welcome to the Petition Validation Helper tool. Please enter the
+                    passphrase related to your campaign to access the tool.
+                </p>
+                <label for="passphrase">Passphrase:</label>
                 <input id="passphrase" name="passphrase">
-            </label>
-            <button type="submit">Submit</button>
-        </form>
-        <span id="error"></span>
+                <button type="submit">Submit</button>
+                <div id="error"></div>
+            </form>
+        </div>
     </body>
 
     <script src="/res/login.js"></script>

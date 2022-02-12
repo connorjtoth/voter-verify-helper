@@ -40,7 +40,7 @@ class VoterDto {
     this.firstName = obj.firstName;
     this.middleName = obj.middleName;
     this.lastName = obj.lastName;
-    this.suffix = obj.suffix;
+    // this.suffix = obj.suffix;
     this.houseNumber = obj.houseNumber;
     this.houseSuffix = obj.houseSuffix;
     this.preDirection = obj.preDirection;
@@ -49,7 +49,7 @@ class VoterDto {
     this.postDirection = obj.postDirection;
     this.unitType = obj.unitType;
     this.unitNumber = obj.unitNumber;
-    this.nonStandardAddress = obj.nonStandardAddress;
+    // this.nonStandardAddress = obj.nonStandardAddress;
   }
 
   static fromDataStr(datastr) {
