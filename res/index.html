@@ -1,12 +1,20 @@
 <html>
     <head>
         <title>Validation Helper</title>
-        <script src="/res/frontend.js"></script>
+        <link href="https://unpkg.com/gridjs/dist/theme/mermaid.min.css" rel="stylesheet"/>
     </head>
-    <body>
+    <body ng-app>
         <label for="searchValue">Search Term:
             <input id="searchValue" name="searchValue">
         </label>
         <button type="submit" onclick="handleSubmit()">Submit</button>
+        
+        <h2>Actual Data</h2>
+        <div id="queryTable"></div>
+        <h2 id="resultsType"></h2> 
+        <div id="resultsTable"></div>
+
+        <script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script>
+        <script src="/res/frontend.js"></script>
     </body>
 </html>
