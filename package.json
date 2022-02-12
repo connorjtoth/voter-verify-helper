@@ -2,6 +2,8 @@
     "name": "validator-helper",
     "version": "0.0.1",
     "dependencies": {
-        "express": "*"
+        "config": "^3.3.7",
+        "express": "*",
+        "mysql": "*"
     }
 }

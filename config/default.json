@@ -1,0 +1,8 @@
+{
+    "mysqlCxnConfig": {
+        "host": "X",
+        "user": "X",
+        "port": 0,
+        "password": "X"
+    }
+}
