@@ -6,11 +6,12 @@ module.exports = {
         port: process.env.DB_PORT,
         password: process.env.PASSWORD,
         database: process.env.DATABASE,
-        caCert: process.env.CA_CERT,
+        ssl  : {
+            ca : process.env.CA_CERT,
+        }
     },
     authConfig: {
-        users: {
-            [process.env.AUTH_USERNAME]: process.env.AUTH_PASSWORD
-        }
+        passphrase: process.env.AUTH_PASSWORD,
+        cookieSignKey: process.env.COOKIE_SIGN_KEY
     }
 };

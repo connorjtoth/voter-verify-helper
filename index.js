@@ -1,15 +1,13 @@
 // TODO: Modularize code
 
 const express = require('express');
-const basicauth = require('express-basic-auth');
-const fs = require('fs');
+const session = require('express-session');
 const path = require('path');
 const mysql = require('mysql');
 const config = require('./config/default.js');
 const app = express();
 const port = config.port;
 
-app.use(express.json());
 
 const mysqlCxn = mysql.createConnection(config.mysqlCxnConfig);
 
@@ -145,11 +143,15 @@ async function handleRequestVoters(req, res, next) {
   console.log('entering handleRequestVoters');
   console.debug(req.body);
 
+  if (req.session.passphrase !== config.authConfig.passphrase) {
+    return next('not part of an active session');
+  }
+
   try {
     const {query, level} = req.body;
     
     // First get the data out of the request
-    const voterDto = VoterDto.fromDataStr(req.body.query);
+    const voterDto = VoterDto.fromDataStr(query);
     console.log("Getting voter data for :");
     console.log(voterDto);
 
@@ -166,10 +168,34 @@ async function handleRequestVoters(req, res, next) {
     }
 
     // Return results to the user
-    res.send(matchToken);
+    return res.send(matchToken);
   }
   catch (error) {
-    next(error);
+    console.error(error);
+    return next(error);
+  }
+}
+
+
+async function handlePrivate(req, res, next) {
+  try {
+    console.log('entering handlePrivate');
+    const currentSession = req.session;
+    const { passphrase } = req.body;
+
+    if (passphrase === config.authConfig.passphrase) {
+      console.log('passphrase matched, serving search page');
+      currentSession.passphrase = passphrase;
+      return res.sendFile(path.join(__dirname, 'html/search.html'));
+    }
+    else {
+      console.log('passphrase differed, serving error query parameter');
+      return res.redirect('/?error=Unknown%20passphrase');
+    }
+  }
+  catch (error) {
+    console.error(error);
+    return res.redirect('/?error=Unknown%20error');
   }
 }
 
@@ -187,14 +213,18 @@ mysqlCxn.connect((err) => {
 
 
 /* * * Routing * * */
-app.use(basicauth(config.authConfig));
+app.use(session({
+  secret: config.authConfig.cookieSignKey,
+  resave: true,
+  saveUninitialized: true
+}));
 
-app.post('/api/requestVoters', handleRequestVoters);
-
+app.post('/private', express.urlencoded({ extended: true }), handlePrivate);
+app.post('/api/requestVoters', express.json(), handleRequestVoters);
 app.use('/res', express.static(path.join(__dirname, 'res')));
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'res/index.html'));
+  return res.sendFile(path.join(__dirname, 'html/login.html'));
 });
 
 app.listen(port, () => {

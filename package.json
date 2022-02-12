@@ -2,9 +2,8 @@
     "name": "validator-helper",
     "version": "0.0.1",
     "dependencies": {
-        "config": "^3.3.7",
         "express": "*",
         "mysql": "*",
-        "express-basic-auth": "*"
+        "express-session": "*"
     }
 }
