@@ -1,11 +1,11 @@
 // TODO: Modularize code
 
 const express = require('express');
+const basicauth = require('express-basic-auth');
 const fs = require('fs');
 const path = require('path');
 const mysql = require('mysql');
 const config = require('config');
-const { nextTick } = require('process');
 const app = express();
 const port = 3000;
 
@@ -197,6 +197,9 @@ mysqlCxn.connect((err) => {
 
 
 /* * * Routing * * */
+const authConfig = config.get('authConfig');
+app.use(basicauth(authConfig));
+
 app.post('/api/requestVoters', handleRequestVoters);
 
 app.use('/res', express.static(path.join(__dirname, 'res')));

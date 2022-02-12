@@ -4,6 +4,7 @@
     "dependencies": {
         "config": "^3.3.7",
         "express": "*",
-        "mysql": "*"
+        "mysql": "*",
+        "express-basic-auth": "*"
     }
 }

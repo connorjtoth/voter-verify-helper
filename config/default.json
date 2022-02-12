@@ -5,5 +5,10 @@
         "port": 0,
         "password": "X",
         "database": "X"
+    },
+
+    "authConfig": {
+        "users": {
+        }
     }
 }
