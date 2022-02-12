@@ -3,6 +3,7 @@
         "host": "X",
         "user": "X",
         "port": 0,
-        "password": "X"
+        "password": "X",
+        "database": "X"
     }
 }
