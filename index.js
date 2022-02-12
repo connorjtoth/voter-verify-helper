@@ -12,7 +12,6 @@ const port = 3000;
 app.use(express.json());
 
 const mysqlCxnConfig = config.mysqlCxnConfig;
-console.log(mysqlCxnConfig);
 const mysqlCxn = mysql.createConnection({
   host: mysqlCxnConfig.host,
   user: mysqlCxnConfig.user,

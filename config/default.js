@@ -2,7 +2,7 @@ module.exports = {
     mysqlCxnConfig: {
         host: process.env.HOSTNAME,
         user: process.env.USERNAME,
-        port: process.env.PORT,
+        port: process.env.DB_PORT,
         password: process.env.PASSWORD,
         database: process.env.DATABASE,
         caCert: process.env.CA_CERT,
