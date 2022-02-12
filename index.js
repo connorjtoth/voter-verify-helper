@@ -5,6 +5,7 @@ const fs = require('fs');
 const path = require('path');
 const mysql = require('mysql');
 const config = require('config');
+const { nextTick } = require('process');
 const app = express();
 const port = 3000;
 
@@ -48,7 +49,6 @@ class VoterDto {
 
   constructor(obj) {
     this.voterid = obj.voterid;
-    this.county = obj.county;
     this.firstName = obj.firstName;
     this.middleName = obj.middleName;
     this.lastName = obj.lastName;
@@ -62,15 +62,12 @@ class VoterDto {
     this.unitType = obj.unitType;
     this.unitNumber = obj.unitNumber;
     this.nonStandardAddress = obj.nonStandardAddress;
-    this.residentialCity = obj.residentialCity;
-    this.residentialState = obj.residentialState;
-    this.residentialZipCode = obj.residentialZipCode;
   }
 
   static fromDataStr(datastr) {
     const data = datastr.split('\t');
     if (data.length != 6) {
-      throw new Exception('Must have 6 fields of data to construct Voter from data string: ' + datastr);
+      throw 'Must have 6 fields of data to construct Voter from data string: ' + datastr;
     }
 
     return new VoterDto({
@@ -154,30 +151,36 @@ async function queryLastChanceMatch(voterDto) {
 }
 
 
-async function handleRequestVoters(req, res) {
-  console.log(req.body.query);
+async function handleRequestVoters(req, res, next) {
+  console.log('entering handleRequestVoters');
+  console.debug(req.body);
 
-  const {query, level} = req.body;
-  
-  // First get the data out of the request
-  const voterDto = VoterDto.fromDataStr(req.body.query);
-  console.log("Getting voter data for :");
-  console.log(voterDto);
+  try {
+    const {query, level} = req.body;
+    
+    // First get the data out of the request
+    const voterDto = VoterDto.fromDataStr(req.body.query);
+    console.log("Getting voter data for :");
+    console.log(voterDto);
 
-  // Then make calls to the database to get appropriate results
-  let matchToken;
-  if (!level || level === 'exact') {
-    matchToken = await queryExactMatch(voterDto);
-  }
-  if ((!level && matchToken.results.length === 0) || level === 'good') {
-    matchToken = await queryGoodMatch(voterDto);
-  }
-  if ((!level && matchToken.results.length === 0) || level === 'lastChance') {
-    matchToken = await queryLastChanceMatch(voterDto);
-  }
+    // Then make calls to the database to get appropriate results
+    let matchToken;
+    if (!level || level === 'exact') {
+      matchToken = await queryExactMatch(voterDto);
+    }
+    if ((!level && matchToken.results.length === 0) || level === 'good') {
+      matchToken = await queryGoodMatch(voterDto);
+    }
+    if ((!level && matchToken.results.length === 0) || level === 'lastChance') {
+      matchToken = await queryLastChanceMatch(voterDto);
+    }
 
-  // Return results to the user
-  res.send(matchToken);
+    // Return results to the user
+    res.send(matchToken);
+  }
+  catch (error) {
+    next(error);
+  }
 }
 
 
