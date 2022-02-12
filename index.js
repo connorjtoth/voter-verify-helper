@@ -5,13 +5,14 @@ const basicauth = require('express-basic-auth');
 const fs = require('fs');
 const path = require('path');
 const mysql = require('mysql');
-const config = require('config');
+const config = require('./config/default.js');
 const app = express();
 const port = 3000;
 
 app.use(express.json());
 
-const mysqlCxnConfig = config.get('mysqlCxnConfig');
+const mysqlCxnConfig = config.mysqlCxnConfig;
+console.log(mysqlCxnConfig);
 const mysqlCxn = mysql.createConnection({
   host: mysqlCxnConfig.host,
   user: mysqlCxnConfig.user,
@@ -19,7 +20,7 @@ const mysqlCxn = mysql.createConnection({
   password: mysqlCxnConfig.password,
   database : mysqlCxnConfig.database,
   ssl  : {
-    ca : fs.readFileSync(__dirname + '/config/mysql-ca.crt')
+    ca : mysqlCxnConfig.caCert
   }
 });
 
@@ -197,8 +198,7 @@ mysqlCxn.connect((err) => {
 
 
 /* * * Routing * * */
-const authConfig = config.get('authConfig');
-app.use(basicauth(authConfig));
+app.use(basicauth(config.authConfig));
 
 app.post('/api/requestVoters', handleRequestVoters);
 
