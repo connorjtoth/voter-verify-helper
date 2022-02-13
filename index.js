@@ -52,20 +52,54 @@ class VoterDto {
     // this.nonStandardAddress = obj.nonStandardAddress;
   }
 
-  static fromDataStr(datastr) {
-    const data = datastr.split('\t');
-    if (data.length != 6) {
-      throw 'Must have 6 fields of data to construct Voter from data string: ' + datastr;
+  static fromNameAndAddress(nameStr, addrStr) {
+    if (!nameStr || !addrStr) {
+      throw 'Must have nonempty name and addr strings';
+    }
+    
+    const NAME_REGEXP = /^(\w+) +(?:(\w+)\.? +|)([\w-]+)$/i
+    const ADDR_REGEXP = /^(\d+) +(?:([NESW]+) +|)(\w+)(?: +(\w+)|)(?: +([#]|Apt.?|Unit) *(\w*)|)$/i
+    const addrMatch = addrStr.match(ADDR_REGEXP);
+    const nameMatch = nameStr.match(NAME_REGEXP);
+
+    if (!addrMatch || !nameMatch) {
+      throw 'Unable to parse both name and address';
     }
 
-    return new VoterDto({
-      firstName: data[0],
-      lastName: data[1],
-      houseNumber: data[2],
-      preDirection: data[3],
-      streetName: data[4],
-      streetType: data[5]
-    });
+    const voterDto = new VoterDto({});
+    voterDto.firstName = nameMatch[0];
+    voterDto.middleName = nameMatch[1];
+    voterDto.lastName = nameMatch[2];
+    voterDto.houseNumber = addrMatch[0];
+    voterDto.preDirection = addrMatch[1];
+    voterDto.streetName = addrMatch[2];
+    voterDto.streetType = addrMatch[3];
+    voterDto.unitType = addrMatch[4];
+    voterDto.unitNumber = addrMatch[5];
+    return voterDto;
+  }
+
+
+
+  static fromDataStr(datastr) {
+    const data = datastr.split('\t');
+    if (data.length != 6 && data.length != 2) {
+      throw 'Must have exactly 2 or 6 fields of data to construct Voter from data string: ' + datastr;
+    }
+
+    if (data.length === 6) {
+      return new VoterDto({
+        firstName: data[0],
+        lastName: data[1],
+        houseNumber: data[2],
+        preDirection: data[3],
+        streetName: data[4],
+        streetType: data[5]
+      });
+    }
+    else {
+      return this.fromNameAndAddress(data[0], data[1]);
+    }
   }
 }
 
