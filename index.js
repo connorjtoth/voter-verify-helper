@@ -67,15 +67,15 @@ class VoterDto {
     }
 
     const voterDto = new VoterDto({});
-    voterDto.firstName = nameMatch[0];
-    voterDto.middleName = nameMatch[1];
-    voterDto.lastName = nameMatch[2];
-    voterDto.houseNumber = addrMatch[0];
-    voterDto.preDirection = addrMatch[1];
-    voterDto.streetName = addrMatch[2];
-    voterDto.streetType = addrMatch[3];
-    voterDto.unitType = addrMatch[4];
-    voterDto.unitNumber = addrMatch[5];
+    voterDto.firstName = nameMatch[1];
+    voterDto.middleName = nameMatch[2];
+    voterDto.lastName = nameMatch[3];
+    voterDto.houseNumber = addrMatch[1];
+    voterDto.preDirection = addrMatch[2];
+    voterDto.streetName = addrMatch[3];
+    voterDto.streetType = addrMatch[4];
+    voterDto.unitType = addrMatch[5];
+    voterDto.unitNumber = addrMatch[6];
     return voterDto;
   }
 
