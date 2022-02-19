@@ -22,11 +22,12 @@
                     A <span style="color:greenyellow">green</span> cell indicates an exact match for a field. A 
                     <span style="color:yellow">yellow</span> cell indicates strong similarity in a given field.
                 </p>
-
-                <label for="searchValue">Search Term:</label>
-                <input id="searchValue" name="searchValue">
-                <button type="submit" onclick="handleSubmit()">Submit</button>
-                <div id="error"></div>
+                <form action="javascript:void(0);">
+                    <label for="searchValue">Search Term:</label>
+                    <input id="searchValue" name="searchValue">
+                    <button type="submit" onclick="handleSubmit()">Submit</button>
+                    <div id="error"></div>
+                </form>
             </div>
             
             <div id="results">
