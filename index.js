@@ -57,8 +57,8 @@ class VoterDto {
       throw 'Must have nonempty name and addr strings';
     }
     
-    const NAME_REGEXP = /^(\w+) +(?:(\w+)\.? +|)([\w-]+)$/i
-    const ADDR_REGEXP = /^(\d+) +(?:([NESW]+) +|)(\w+)(?: +(\w+)|)(?: +([#]|Apt.?|Unit) *(\w*)|)$/i
+    const NAME_REGEXP = /^ *(\w+) +(?:(\w+)\.? +|)([\w-]+) *$/i
+    const ADDR_REGEXP = /^ *(\d+) +(?:([NESW]+) +|)(\w+)(?: +(\w+)|)(?: +([#]|Apt.?|Unit) *(\w*)|) *$/i
     const addrMatch = addrStr.match(ADDR_REGEXP);
     const nameMatch = nameStr.match(NAME_REGEXP);
 
